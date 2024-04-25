@@ -26,16 +26,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/redirect',function () {
-    if (Auth::check()) {
-        $userRole = Auth::user()->role['name'];
-        if ($userRole == 'admin') {
-            return to_route('admin.dashboard');
-        }
-        return to_route('mahasiswa.dashboard');
-    }
-})->name('redirect');
-
 
 Route::middleware('guest')->group(function () {
     Route::controller(LoginController::class)->group(function () {
@@ -45,16 +35,16 @@ Route::middleware('guest')->group(function () {
     });
 });
 
-Route::middleware(['auth','role:admin'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::prefix('/dashboard/admin')->group(function(){
         Route::get('/', function(){
             $alternatif = Alternatif::count();
             $kriteria = Kriteria::count();
-            $mahasiswa = User::where('role_id', 1)->count();
+            // $mahasiswa = User::where('role_id', 1)->count();
             return view('admin.index', [
                 'alternatif' => $alternatif,
                 'kriteria' => $kriteria,
-                'mahasiswa' => $mahasiswa,
+                // 'mahasiswa' => $mahasiswa,
             ]);
         })->name('admin.dashboard');
         Route::prefix('/mahasiswa')->group(function(){
@@ -92,7 +82,7 @@ Route::middleware(['auth','role:admin'])->group(function () {
     });
 });
 
-Route::middleware(['auth','role:mahasiswa'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::prefix('/dashboard/mahasiswa')->group(function(){
         Route::get('/', function(){
             $alternatif = Alternatif::count();

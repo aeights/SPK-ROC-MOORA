@@ -27,12 +27,12 @@
                             <input name="email" type="email" class="form-control" value="{{ $user->email }}">
                         </div>
                     </div>
-                    <div class="form-group row">
+                    {{-- <div class="form-group row">
                         <label class="col-sm-2 col-form-label text-dark">HP</label>
                         <div class="col-sm-10">
                             <input name="phone" type="text" class="form-control" value="{{ $user->phone }}">
                         </div>
-                    </div>
+                    </div> --}}
                 </form>
             </div>
         </div>

@@ -37,7 +37,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-sm-6">
+        {{-- <div class="col-lg-4 col-sm-6">
             <div class="card">
                 <div class="stat-widget-two card-body bg-warning">
                     <div class="stat-content">
@@ -46,7 +46,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!-- /# column -->
     </div>
 </div>

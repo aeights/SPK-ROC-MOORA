@@ -15,17 +15,17 @@ Header start
                             <i class="mdi mdi-account"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            @if (Auth::user()->role['name'] == 'admin')
+                            {{-- @if (Auth::user()->role['name'] == 'admin') --}}
                             <a href="{{ route('admin.change.password') }}" class="dropdown-item">
                                 <i class="icon-envelope-open"></i>
                                 <span class="ml-2">Change Password </span>
                             </a>
-                            @else
+                            {{-- @else
                             <a href="{{ route('mahasiswa.change.password') }}" class="dropdown-item">
                                 <i class="icon-envelope-open"></i>
                                 <span class="ml-2">Change Password </span>
                             </a>
-                            @endif
+                            @endif --}}
                             <a href="{{ route('logout') }}" class="dropdown-item">
                                 <i class="icon-key"></i>
                                 <span class="ml-2">Logout </span>

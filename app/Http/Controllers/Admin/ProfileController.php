@@ -32,7 +32,7 @@ class ProfileController extends Controller
             'name' => 'required',
             'address' => 'required',
             'email' => 'email|required|unique:users,email,'.Auth::user()->id,
-            'phone' => 'numeric|required|unique:users,phone,'.Auth::user()->id,
+            // 'phone' => 'numeric|required|unique:users,phone,'.Auth::user()->id,
         ]);
 
         if ($validated) {

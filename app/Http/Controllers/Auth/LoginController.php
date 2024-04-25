@@ -23,7 +23,7 @@ class LoginController extends Controller
         if ($validated) {
             $attempt = Auth::attempt($validated);
             if ($attempt) {
-                return to_route('redirect')->with('message','Login berhasil');
+                return to_route('admin.dashboard')->with('message','Login berhasil');
             }
             return back()->with('message','Email atau password salah');
         }
