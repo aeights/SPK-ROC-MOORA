@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="row page-titles mx-0">
+        <div class="row page-titles mx-0" style="background: transparent">
             <div class="col-sm-6 p-md-0">
                 <div class="welcome-text">
                     <h4>Alternatif</h4>
@@ -26,13 +26,13 @@
                         <div class="basic-form">
                             <form action="{{ route('admin.alternatif.store') }}" method="post">
                                 @csrf
-                                <div class="form-row">
+                                {{-- <div class="form-row">
                                     <div class="form-group col">
                                         <label>Kode</label>
                                         <input name="code" type="text" class="form-control"
                                         placeholder="Kode alternatif">
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="form-row">
                                     <div class="form-group col">
                                         <label>Alternatif</label>

@@ -34,14 +34,18 @@ class AlternatifController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'code' => 'required',
+            // 'code' => 'required',
             'alternatif' => 'required',
         ]);
         try {
-            Alternatif::create($request->all());
-    
+            $alternatif = Alternatif::create($request->all());
+            
+            $alternatif->code = 'A'.$alternatif->id;
+            $alternatif->save();
+
             return to_route('admin.alternatif.index')->with('success', 'Alternatif berhasil ditambah');
         } catch (\Throwable $th) {
+            dd($th);
             return back()->with('error', 'Opps, Something was wrong!');
         }
     }

@@ -18,7 +18,7 @@ class PenilaianController extends Controller
     public function index() : View {
         $kriterias = Kriteria::with('sub_kriteria')->get();
         $alternatifs = Alternatif::get();
-        return view('mahasiswa.penilaian.index', [
+        return view('admin.penilaian.index', [
             "kriterias" => $kriterias,
             'alternatifs' => $alternatifs,
         ]);
@@ -26,7 +26,7 @@ class PenilaianController extends Controller
 
     public function history(): View {
         $penilaian = Penilaian::where('user_id', Auth::user()->id)->get();
-        return view('mahasiswa.penilaian.history', [
+        return view('admin.penilaian.history', [
             'penilaian' => $penilaian,
         ]);
     }
@@ -102,7 +102,7 @@ class PenilaianController extends Controller
             $penilaian->save();
         }
 
-        return view('mahasiswa.penilaian.detail', [
+        return view('admin.penilaian.detail', [
             'matrix_normalisasi' => $matrix_normalisasi, 
             'matrix_normalisasi_w' => $matrix_normalisasi_w,
             'matrix' => $matrix,
