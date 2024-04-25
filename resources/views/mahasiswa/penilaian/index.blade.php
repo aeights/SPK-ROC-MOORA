@@ -144,14 +144,14 @@
 
         saveBtn.addEventListener('click', () => {
             $.ajax({
-                url: '{{ route("mahasiswa.penilaian.store") }}',
+                url: '{{ route("admin.penilaian.store") }}',
                 type: "POST",
                 data: {
                     "_token": "{{ csrf_token() }}",
                     data: data,
                 },
                 success: function (value) {
-                    window.location.href = `/dashboard/mahasiswa/penilaian/history/${value}`
+                    window.location.href = `/dashboard/admin/penilaian/history/${value}`
                 }
             })
         });

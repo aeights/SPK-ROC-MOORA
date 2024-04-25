@@ -40,7 +40,7 @@
                                             <td>{{ $item->alternatif }}</td>
                                             <td>{{ $item->created_at }}</td>
                                             <td>
-                                                <a href="{{ route('mahasiswa.penilaian.detail_history', $item->id) }}" class="btn btn-success">Detail</a>
+                                                <a href="{{ route('admin.penilaian.detail_history', $item->id) }}" class="btn btn-success">Detail</a>
                                             </td>
                                         </tr>
                                     @endforeach

@@ -21,7 +21,7 @@
             <li>
                 <a class="has-arrows" href="{{ route('admin.alternatif.index') }}">
                     <i class="icon icon-app-store"></i>
-                    <span class="nav-text">Alternatif</span>
+                    <span class="nav-text">Lokasi</span>
                 </a>
             </li>
             <li>
@@ -31,23 +31,23 @@
                 </a>
             </li> 
             <li>
-                <a class="has-arrows" href="{{ route('mahasiswa.penilaian.index') }}">
+                <a class="has-arrows" href="{{ route('admin.penilaian.index') }}">
                     <i class="icon icon-app-store"></i>
                     <span class="nav-text">Penilaian</span>
                 </a>
             </li>
             <li>
-                <a class="has-arrows" href="{{ route('mahasiswa.penilaian.history') }}">
+                <a class="has-arrows" href="{{ route('admin.penilaian.history') }}">
                     <i class="icon icon-app-store"></i>
                     <span class="nav-text">Riwayat Penilaian</span>
                 </a>
             </li> 
-            <li>
+            {{-- <li>
                 <a class="has-arrows" href="{{ route('admin.profile.index') }}">
                     <i class="icon icon-app-store"></i>
                     <span class="nav-text">Profile</span>
                 </a>
-            </li> 
+            </li>  --}}
         </ul>
         {{-- @else
         <ul class="metismenu" id="menu">

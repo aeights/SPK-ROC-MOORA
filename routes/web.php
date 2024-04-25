@@ -3,14 +3,15 @@
 use App\Http\Controllers\Admin\AlternatifController;
 use App\Http\Controllers\Admin\KriteriaController;
 use App\Http\Controllers\Admin\MahasiswaController;
+use App\Http\Controllers\Admin\PenilaianController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Mahasiswa\AlternatifController as MahasiswaAlternatifController;
 use App\Http\Controllers\Mahasiswa\KriteriaController as MahasiswaKriteriaController;
-use App\Http\Controllers\Mahasiswa\PenilaianController;
 use App\Http\Controllers\Mahasiswa\ProfileController as MahasiswaProfileController;
 use App\Models\Alternatif;
 use App\Models\Kriteria;
+use App\Models\Penilaian;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -40,11 +41,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', function(){
             $alternatif = Alternatif::count();
             $kriteria = Kriteria::count();
-            // $mahasiswa = User::where('role_id', 1)->count();
+            $penilaian = Penilaian::count();
+            
             return view('admin.index', [
                 'alternatif' => $alternatif,
                 'kriteria' => $kriteria,
-                // 'mahasiswa' => $mahasiswa,
+                'penilaian' => $penilaian,
             ]);
         })->name('admin.dashboard');
         Route::prefix('/mahasiswa')->group(function(){
@@ -79,43 +81,49 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/change-password', [ProfileController::class, 'changePassword'])->name('admin.change.password');
             Route::post('/change-password', [ProfileController::class, 'updatePassword'])->name('admin.change.password');
         });
-    });
-});
-
-Route::middleware(['auth'])->group(function () {
-    Route::prefix('/dashboard/mahasiswa')->group(function(){
-        Route::get('/', function(){
-            $alternatif = Alternatif::count();
-            $kriteria = Kriteria::count();
-            $mahasiswa = User::where('role_id', 1)->count();
-            return view('mahasiswa.index', [
-                'alternatif' => $alternatif,
-                'kriteria' => $kriteria,
-                'mahasiswa' => $mahasiswa,
-            ]);
-        })->name('mahasiswa.dashboard');
-
-        Route::prefix('/profile')->group(function(){
-            Route::get('/', [MahasiswaProfileController::class, 'index'])->name('mahasiswa.profile.index');
-            Route::get('/edit', [MahasiswaProfileController::class, 'edit'])->name('mahasiswa.profile.edit');
-            Route::post('/edit', [MahasiswaProfileController::class, 'update'])->name('mahasiswa.profile.update');
-            Route::get('/change-password', [MahasiswaProfileController::class, 'changePassword'])->name('mahasiswa.change.password');
-            Route::post('/change-password', [MahasiswaProfileController::class, 'updatePassword'])->name('mahasiswa.change.password');
-        });
-
-        Route::prefix('/alternatif')->group(function(){
-            Route::get('/', [MahasiswaAlternatifController::class, 'index'])->name('mahasiswa.alternatif.index');
-        });
-
-        Route::prefix('/kriteria')->group(function(){
-            Route::get('/', [MahasiswaKriteriaController::class, 'index'])->name('mahasiswa.kriteria.index');
-        });
-
         Route::prefix('/penilaian')->group(function(){
-            Route::get('/', [PenilaianController::class, 'index'])->name('mahasiswa.penilaian.index');
-            Route::get('/history', [PenilaianController::class, 'history'])->name('mahasiswa.penilaian.history');
-            Route::get('/history/{id}', [PenilaianController::class, 'detail_history'])->name('mahasiswa.penilaian.detail_history');
-            Route::post('/', [PenilaianController::class, 'store'])->name('mahasiswa.penilaian.store');
+            Route::get('/', [PenilaianController::class, 'index'])->name('admin.penilaian.index');
+            Route::get('/history', [PenilaianController::class, 'history'])->name('admin.penilaian.history');
+            Route::get('/history/{id}', [PenilaianController::class, 'detail_history'])->name('admin.penilaian.detail_history');
+            Route::post('/', [PenilaianController::class, 'store'])->name('admin.penilaian.store');
         });
     });
 });
+
+// Route::middleware(['auth'])->group(function () {
+//     Route::prefix('/dashboard/mahasiswa')->group(function(){
+//         Route::get('/', function(){
+//             $alternatif = Alternatif::count();
+//             $kriteria = Kriteria::count();
+//             $mahasiswa = User::where('role_id', 1)->count();
+//             return view('mahasiswa.index', [
+//                 'alternatif' => $alternatif,
+//                 'kriteria' => $kriteria,
+//                 'mahasiswa' => $mahasiswa,
+//             ]);
+//         })->name('mahasiswa.dashboard');
+
+//         Route::prefix('/profile')->group(function(){
+//             Route::get('/', [MahasiswaProfileController::class, 'index'])->name('mahasiswa.profile.index');
+//             Route::get('/edit', [MahasiswaProfileController::class, 'edit'])->name('mahasiswa.profile.edit');
+//             Route::post('/edit', [MahasiswaProfileController::class, 'update'])->name('mahasiswa.profile.update');
+//             Route::get('/change-password', [MahasiswaProfileController::class, 'changePassword'])->name('mahasiswa.change.password');
+//             Route::post('/change-password', [MahasiswaProfileController::class, 'updatePassword'])->name('mahasiswa.change.password');
+//         });
+
+//         Route::prefix('/alternatif')->group(function(){
+//             Route::get('/', [MahasiswaAlternatifController::class, 'index'])->name('mahasiswa.alternatif.index');
+//         });
+
+//         Route::prefix('/kriteria')->group(function(){
+//             Route::get('/', [MahasiswaKriteriaController::class, 'index'])->name('mahasiswa.kriteria.index');
+//         });
+
+//         Route::prefix('/penilaian')->group(function(){
+//             Route::get('/', [PenilaianController::class, 'index'])->name('mahasiswa.penilaian.index');
+//             Route::get('/history', [PenilaianController::class, 'history'])->name('mahasiswa.penilaian.history');
+//             Route::get('/history/{id}', [PenilaianController::class, 'detail_history'])->name('mahasiswa.penilaian.detail_history');
+//             Route::post('/', [PenilaianController::class, 'store'])->name('mahasiswa.penilaian.store');
+//         });
+//     });
+// });
