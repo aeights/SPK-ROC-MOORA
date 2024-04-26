@@ -30,7 +30,7 @@
                                 <div class="form-group col">
                                     <label>Code</label>
                                     <input name="code" type="text" class="form-control"
-                                        placeholder="code">
+                                        placeholder="example: C1">
                                 </div>
                             </div>
                             <div class="form-row">
@@ -42,16 +42,18 @@
                             </div>
                             <div class="form-row">
                                 <div class="form-group col">
-                                    <label>Type</label>
-                                    <input name="type" type="text" class="form-control"
-                                        placeholder="cost">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col">
                                     <label>Bobot</label>
                                     <input name="value" type="number" class="form-control"
-                                        placeholder="2">
+                                        placeholder="1" min="1">
+                                </div>
+                            </div>
+                            <div class="">
+                                <label>Jenis</label>
+                                <div class="form-group col p-0">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="type" value="Benefit"> Benefit</label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="type" value="Cost"> Cost</label>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary">Tambah</button>

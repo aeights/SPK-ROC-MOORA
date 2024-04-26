@@ -4,7 +4,6 @@
 <div class="quixnav">
     <div class="quixnav-scroll">
         <ul class="metismenu" id="menu">
-            <li class="nav-label first">Main Menu</li>
             <li>
                 <a class="has-arrows" href="/">
                     <i class="icon icon-app-store"></i>

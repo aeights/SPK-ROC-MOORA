@@ -27,20 +27,65 @@
         {!! implode('', $errors->all('<div>:message</div>')) !!}
     </div>
     @endif
+    <h4 class="m-3" style="width: 300px">SISTEM REKOMENDASI LOKASI TERBAIK UNTUK MENDIRIKAN CABANG RUMAH MAKAN</h4>
     <div class="authincation h-100">
+        <div class="container-fluid h-100">
+            <div class="row justify-content-center h-100 align-items-center">
+                <div class="col-md-3">
+                    <div class="text-center">
+                        <p>Halo, Selamat Datang</p>
+                        <h4>Temukan Lokasi Cabang Terbaik</h4>
+                    </div>
+                    <div class="authincation-content">
+                        <div class="row no-gutters">
+                            <div class="col-xl-12">
+                                <div class="auth-form">
+                                    <h4 class="text-center mb-4">Login</h4>
+                                    <form action="{{ route('login.process') }}" method="POST">
+                                        @csrf
+                                        <div class="form-group">
+                                            <label><strong>Email</strong></label>
+                                            <input type="email" name="email" class="form-control" placeholder="hello@example.com">
+                                        </div>
+                                        <div class="form-group">
+                                            <label><strong>Password</strong></label>
+                                            <input type="password" name="password" class="form-control" placeholder="Password">
+                                        </div>
+                                        <div class="form-row d-flex justify-content-between align-items-center mt-4 mb-2">
+                                            <div class="form-group">
+                                                <div class="form-check ml-2">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="basic_checkbox_1">
+                                                    <label class="form-check-label" for="basic_checkbox_1">Remember
+                                                        me</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <a href="#">Lupa Password</a>
+                                            </div>
+                                        </div>
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-primary btn-block">Login</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- <div class="authincation h-100">
         <div class="container-fluid h-100">
             <div class="row justify-content-center h-100 align-items-center">
                 <div class="col-sm-4">
                     <div class="authincation-content">
                         <div class="row no-gutters">
                             <div class="auth-form">
-                                <h4 class="text-center mb-4">SISTEM REKOMENDASI TOPIK SKRIPSI JURUSAN TEKNOLOGI INFORMASI</h4>
-                                <div class="text-center mb-2">
-                                    <img src="{{ asset('images/logo-polinema.png') }}" alt="logo polinema" width="100px" style="display: inline-block;">
-                                </div>
+                                <h4 class="text-center mb-4">Login</h4>
                                 <form action="{{ route('login.process') }}" method="POST">
                                     @csrf
-                                    <h5 class="text-center mb-2">Silahkan Login</h5>
                                     <div class="form-group">
                                         <label><strong>Email</strong></label>
                                         <input type="email" name="email" class="form-control" placeholder="hello@example.com">
@@ -48,9 +93,6 @@
                                     <div class="form-group">
                                         <label><strong>Password</strong></label>
                                         <input type="password" name="password" class="form-control" placeholder="Password">
-                                    </div>
-                                    <div class="text-center">
-                                        <button type="submit" class="btn btn-primary btn-block">Login</button>
                                     </div>
                                     <div class="form-row d-flex justify-content-between align-items-center mt-4 mb-2">
                                         <div class="form-group">
@@ -62,8 +104,11 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <a href="page-forgot-password.html">Login Email Polinema</a>
+                                            <a href="#">Lupa Password</a>
                                         </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary btn-block">Login</button>
                                     </div>
                                 </form>
                             </div>
@@ -72,7 +117,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
 
     <!--**********************************

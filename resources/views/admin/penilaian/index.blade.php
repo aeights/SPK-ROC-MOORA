@@ -2,15 +2,15 @@
 
 @section('content')
 <div class="container-fluid">
-    <div class="row page-titles mx-0">
+    <div class="row page-titles mx-0" style="background: transparent">
         <div class="col-sm-6 p-md-0">
             <div class="welcome-text">
-                <h4>kriteria</h4>
+                <h4>Penilaian</h4>
             </div>
         </div>
         <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
                 <li class="breadcrumb-item active"><a href="javascript:void(0)">Penilaian</a></li>
             </ol>
         </div>
@@ -19,8 +19,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">Pilih Topik yang kamu bingungkan!</button>
-                    <button class="btn btn-success" id="simpan">Simpan</button>
+                    <button class="btn btn-success text-white" data-toggle="modal" data-target="#exampleModalCenter">Mulai Menilai</button>
+                    <button class="btn btn-danger" id="simpan">Mulai Menghitung</button>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -56,14 +56,14 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Pilih topik yang kamu bingungkan</h5>
+                <h5 class="modal-title">Mulai Menilai</h5>
                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
                 </button>
             </div>
             <form>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="">Pilih topik</label>
+                        <label for="">Pilih lokasi</label>
                         <select class="form-control" id="input-topik">
                             @foreach ($alternatifs as $item)
                                 <option value="{{ $item->code }}" attrBobot="{{ $item->value }}">{{$item->alternatif}}</option>

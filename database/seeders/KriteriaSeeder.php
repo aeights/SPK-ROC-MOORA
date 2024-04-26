@@ -17,121 +17,101 @@ class KriteriaSeeder extends Seeder
     {
         $data = [
             [
-                'code' => 'C1', 'name' => 'Nilai akademik', 'type' => 'Benefit', 'value' => 5, 'sub_categorie' => [
+                'code' => 'C1', 'name' => 'Harga Lokasi', 'type' => 'Cost', 'value' => 1, 'sub_categories' => [
                     [
-                        'name' => 'A (Sangat Baik)',
-                        'value' => 5
-                    ],
-                    [
-                        'name' => 'B+ (Lebih dari Baik)',
-                        'value' => 5.5
-                    ],
-                    [
-                        'name' => 'B (Baik)',
-                        'value' => 4
-                    ],
-                    [
-                        'name' => 'C+ (Lebih dari Cukup)',
-                        'value' => 4.5
-                    ],
-                    [
-                        'name' => 'C (Cukup)',
+                        'name' => 'Terjangkau',
                         'value' => 3
                     ],
                     [
-                        'name' => 'D (Kurang)',
+                        'name' => 'Mahal',
                         'value' => 2
                     ],
 
                     [
-                        'name' => 'E (Gagal)',
+                        'name' => 'Sangat Mahal',
                         'value' => 1
                     ],
                 ],
             ],
             [
-                'code' => 'C2', 'name' => 'History project', 'type' => 'Benefit', 'value' => 3,  'sub_categorie' => [
+                'code' => 'C2', 'name' => 'Luas Tanah', 'type' => 'Benefit', 'value' => 1,  'sub_categories' => [
                     [
-                        'name' => '≥ 7',
-                        'value' => 4
-                    ],
-                    [
-                        'name' => '4 ≥  ≤ 6',
+                        'name' => '> 300m2',
                         'value' => 3
                     ],
                     [
-                        'name' => '1 ≥  ≤ 3',
+                        'name' => '200 - 300m2',
                         'value' => 2
                     ],
                     [
-                        'name' => 'Tidak ada',
+                        'name' => '< 200 m2',
                         'value' => 1
                     ],
                 ],
             ],
             [
-                'code' => 'C3', 'name' => 'Pelatihan', 'type' => 'Benefit', 'value' => 4,  'sub_categorie' => [
+                'code' => 'C3', 'name' => 'Pasar Sasaran', 'type' => 'Benefit', 'value' => 1,  'sub_categories' => [
                     [
-                        'name' => 'Pernah mengikuti',
-                        'value' => 2
-                    ],
-                    [
-                        'name' => 'Tidak pernah mengikuti',
-                        'value' => 1
-                    ],
-                ],
-            ],
-            [
-                'code' => 'C4', 'name' => 'Prestasi Non Akademik', 'type' => 'Benefit', 'value' => 3,  'sub_categorie' => [
-                    [
-                        'name' => 'Internasional',
+                        'name' => 'Kampus',
                         'value' => 4
                     ],
                     [
-                        'name' => 'Nasional',
+                        'name' => 'Pusat Perbelanjaan',
                         'value' => 3
                     ],
                     [
-                        'name' => 'Regional',
+                        'name' => 'Perkantoran',
                         'value' => 2
                     ],
                     [
-                        'name' => 'Tidak ada',
+                        'name' => 'Tidak Ada',
+                        'value' => 1
+                    ],
+                ],
+            ],
+            [
+                'code' => 'C4', 'name' => 'Banyak Penduduk/Keramaian', 'type' => 'Benefit', 'value' => 1,  'sub_categories' => [
+                    [
+                        'name' => 'Sangat Padat',
+                        'value' => 3
+                    ],
+                    [
+                        'name' => 'Padat',
+                        'value' => 2
+                    ],
+                    [
+                        'name' => 'Cukup Padat',
                         'value' => 1
                     ]
                 ],
             ],
-            ['code' => 'C5', 'name' => 'Minat', 'type' => 'Benefit', 'value' => 5,  'sub_categorie' => [
+            ['code' => 'C5', 'name' => 'Aksesibilitas', 'type' => 'Benefit', 'value' => 1,  'sub_categories' => [
                 [
-                    'name' => 'Sangat Minat	',
-                    'value' => 4
-                ],
-                [
-                    'name' => 'Minat',
+                    'name' => 'Dapat dilalui semua jenis kendaraan',
                     'value' => 3
                 ],
                 [
-                    'name' => 'Kurang minat	',
+                    'name' => 'Hanya dilalui mobil kecil dan motor',
                     'value' => 2
                 ],
                 [
-                    'name' => 'Tidak minat',
+                    'name' => 'Hanya dilalui motor saja',
                     'value' => 1
                 ]
             ],],
             [
-                'code' => 'C6', 'name' => 'Biaya Infrastruktur', 'type' => 'Cost', 'value' => 2,  'sub_categorie' => [
+                'code' => 'C6', 'name' => 'Kompetitor/Jumlah Usaha Pesaing', 'type' => 'Cost', 'value' => 1,  'sub_categories' => [
                     [
-                        'name' => '> 2.000.000	',
-                        'value' => 1
+                        'name' => 'Tinggi',
+                        'value' => 3
                     ],
                     [
-                        'name' => '1.000.000 ≥  ≤ 2.000.000',
+                        'name' => 'Sedang',
                         'value' => 2
                     ],
                     [
-                        'name' => '< 1.000.000',
-                        'value' => 3
+                        'name' => 'Rendah',
+                        'value' => 1
                     ]
                 ],
             ],
@@ -148,7 +128,7 @@ class KriteriaSeeder extends Seeder
                     'value' => $item['value'],
                 ]);
 
-                foreach ($item['sub_categorie'] as $sub) {
+                foreach ($item['sub_categories'] as $sub) {
                     SubKriteria::create([
                         'kriterias_id' => $user->id,
                         'keterangan' => $sub['name'],

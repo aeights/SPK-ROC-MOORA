@@ -2,15 +2,15 @@
 
 @section('content')
 <div class="container-fluid">
-    <div class="row page-titles mx-0">
+    <div class="row page-titles mx-0" style="background: transparent">
         <div class="col-sm-6 p-md-0">
             <div class="welcome-text">
-                <h4>kriteria</h4>
+                <h4>Kriteria</h4>
             </div>
         </div>
         <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
                 <li class="breadcrumb-item active"><a href="javascript:void(0)">Kriteria</a></li>
             </ol>
         </div>
@@ -32,7 +32,7 @@
                                         <th class="sorting" rowspan="1" colspan="1">Kode</th>
                                         <th class="sorting" rowspan="1" colspan="1">Kriteria</th>
                                         <th class="sorting" rowspan="1" colspan="1">Jenis</th>
-                                        <th class="sorting" rowspan="1" colspan="1">Type</th>
+                                        <th class="sorting" rowspan="1" colspan="1">Bobot</th>
                                         <th class="sorting" rowspan="1" colspan="1">Aksi</th>
                                     </tr>
                                 </thead>
