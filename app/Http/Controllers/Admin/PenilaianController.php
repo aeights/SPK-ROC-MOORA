@@ -33,13 +33,24 @@ class PenilaianController extends Controller
 
     public function detail_history($id) {
         $penilaian = SubPenilaian::with('KriPenilaian')->where('penilaian_id', $id)->get();
-        $kriterias = Kriteria::select('value')->get();
+        $kriterias = Kriteria::select('value', 'type')->get();
         $bobot = [];
+        $types = [
+            "benefits" => [],
+            "costs" => []
+        ];
         // bobot
+        $i = 0;
        foreach($kriterias as $kriteria){
             array_push($bobot, $kriteria->value);
+            if($kriteria->type == "Benefit"){
+                array_push($types["benefits"], $i);
+            }else{
+                array_push($types["costs"], $i);
+            }
+            $i++;
         }
-
+       
         $matrix = [];
         foreach($penilaian as $p){
             $temp = [];
@@ -48,79 +59,69 @@ class PenilaianController extends Controller
             }
             array_push($matrix, $temp);
         }
-        
+        $bobotBaru = $this->pembobotan($bobot);
         $matrix_normalisasi = $this->normalisasi($matrix);
-        $matrix_normalisasi_w = $this->normalisasi_w($matrix_normalisasi, $bobot);
-        // matrix normalisasi dengan bobot
-
-        $alternatif = count($matrix);
-        $concordance_matrix = array();
-        $discordance_matrix = array();
-
-        for ($k=0; $k < $alternatif; $k++) { 
-            $temp_conc = [];
-            $temp_disc = [];
-            for ($l=0; $l < $alternatif; $l++) { 
-                if($k != $l){
-                    $barisn = $matrix_normalisasi_w[$k];
-                    $barism = $matrix_normalisasi_w[$l];
-                    $conc = $this->concordance_sum($barisn, $barism, $matrix_normalisasi_w, $bobot);
-                    $disc = $this->disconcordance_sum($barisn, $barism, $matrix_normalisasi_w);
-                    array_push($temp_disc, $disc);
-                    array_push($temp_conc, $conc);
-                }else{
-                    array_push($temp_conc, 0);
-                    array_push($temp_disc, 0);
-                }
-            }
-            array_push($concordance_matrix, $temp_conc);
-            array_push($discordance_matrix, $temp_disc);
-        }
-        $threshold_con = $this->threshold($concordance_matrix, $alternatif);
-        $threshold_dis = $this->threshold($discordance_matrix, $alternatif);
-        $concordance_dominan = $this->dominan($concordance_matrix, $threshold_con);
-        $discordance_dominan = $this->dominan($discordance_matrix, $threshold_dis);
-        $agregasi = $this->agregasi($concordance_dominan, $discordance_dominan);
-        // dd($matrix_normalisasi_w, $concordance_matrix, $threshold_con, $threshold_dis, $concordance_dominan, $discordance_matrix, $discordance_dominan, $agregasi);
-
+        $matrix_normalisasi_w = $this->normalisasi_w($matrix_normalisasi, $bobotBaru);
+        $minmax = $this->minmax($matrix_normalisasi_w, $types);
+        
         $x = 0;
         foreach($penilaian as $p) { 
-            array_unshift($agregasi[$x], $p->alternatif);
-            array_unshift($concordance_dominan[$x], $p->alternatif);
-            array_unshift($discordance_dominan[$x], $p->alternatif);
+            array_unshift($matrix[$x], $p->alternatif);
             array_unshift($matrix_normalisasi[$x], $p->alternatif);
             array_unshift($matrix_normalisasi_w[$x], $p->alternatif);
-            array_unshift($matrix[$x], $p->alternatif);
+            $minmax[$x] = [$p->alternatif,$minmax[$x]];
             $x++;
         }
-        $x = 0;
-        $ranking = $this->rangking_agregasi($agregasi);
 
+        $hasilRanking = $this->rangking($minmax);
+        
+        $x = 0;
+        
         $penilaian= Penilaian::find($id);
         if(!$penilaian->alternatif){
-            $penilaian->alternatif = $ranking[0][0];
+            $penilaian->alternatif = $hasilRanking[0][0];
             $penilaian->save();
         }
-
+        // dd($bobot, $types, $bobotBaru,$matrix_normalisasi, $matrix_normalisasi_w, $minmax, $hasilRanking);
+        
         return view('admin.penilaian.detail', [
             'matrix_normalisasi' => $matrix_normalisasi, 
             'matrix_normalisasi_w' => $matrix_normalisasi_w,
             'matrix' => $matrix,
-            'concordance_matrix' => $concordance_dominan,
-            'discordance_matrix' => $discordance_dominan,
-            'agregasi' => $agregasi,
-            'ranking' => $ranking,
+            'ranking' => $hasilRanking,
         ]);
     }
 
-    private function threshold($matrixs, $m){
-        $threshold = 0;
-        foreach ($matrixs as  $matrix) {
-            foreach ($matrix as $value) {
-                $threshold += $value;
+    // ROC
+    private function pembobotan($bobot) {
+        $sumKriteria = count($bobot);
+        $hasil = [];
+        for ($baris=0; $baris < $sumKriteria; $baris++) { 
+            $temp = [];
+            for ($kolom=$baris; $kolom < $sumKriteria; $kolom++) { 
+                $bobotBaru = 1 / ($kolom+1);
+                array_push($temp,$bobotBaru);
             }
+            array_push($hasil,array_sum($temp)/$sumKriteria);
         }
-        return $threshold / ($m * ($m-1));
+        return $hasil;
+    }
+
+    private function minmax($matrix, $type){
+        $result = [];
+        for ($i=0; $i < count($matrix); $i++) {
+            $max = 0; 
+            foreach ($type["benefits"] as $value) {
+                $max += $matrix[$i][$value];
+            }
+
+            $min = 0; 
+            foreach ($type["costs"] as $value) {
+                $min += $matrix[$i][$value];
+            }            
+            array_push($result, abs($max - $min));
+        }
+        return $result;
     }
 
     private function normalisasi($matrix)
@@ -163,50 +164,14 @@ class PenilaianController extends Controller
         return $matrix_normalisasi_w;
     }
 
-    private function dominan($matrixs, $threshold){
-        $concordance_dominan = [];
-        foreach ($matrixs as  $matrix) {
-            $temp = [];
-            foreach ($matrix as $value) {
-                if($value >= $threshold){
-                    array_push($temp, 1);
-                }else{
-                    array_push($temp, 0);
-                }
-            }
-            array_push($concordance_dominan, $temp);
-        }
-        return $concordance_dominan;
-    }
 
-    // masih belum digunakan
-    private function concordance($k_alternatif, $l_alternatif, $matrix){
-        $m = count($matrix[0]);
-        $concordance = [];
-        for ($bawah=0; $bawah < $m; $bawah++) { 
-            if($k_alternatif[$bawah] >= $l_alternatif[$bawah]){
-                array_push($concordance, $bawah);
-            }
-        }
-        return $concordance;
-    }
 
-    private function sort($agregasi) {
-        $temp = [];
-        for ( $i=0 ; $i < count($agregasi) ; $i++) { 
-            array_push($temp, array_sum(array_shift($agregasi[$i])));
-        }
-        return sort($temp);
-    }
-
-    private function rangking_agregasi($agregasi)
+    private function rangking($matrix)
     {
-        $sort = $agregasi;
+        $sort = $matrix;
         for ($i=0; $i < count($sort) - 1; $i++) { 
             for ($j=0; $j < count($sort) - $i - 1; $j++) { 
-                $a = array_sum(array_slice($sort[$j], 1));
-                $b = array_sum(array_slice($sort[$j + 1], 1));
-                if ($a < $b) {
+                if ($matrix[$j][1] < $matrix[$j+1][1]) {
                     $temp = $sort[$j];
                     $sort[$j] = $sort[$j + 1];
                     $sort[$j + 1] = $temp;
@@ -214,67 +179,6 @@ class PenilaianController extends Controller
             }
         }
         return $sort;
-    }
-
-    private function concordance_sum($k_alternatif, $l_alternatif, $matrix, $bobot){
-        $m = count($matrix[0]);
-        $sum = 0;
-        for ($bawah=0; $bawah < $m; $bawah++) { 
-            if($k_alternatif[$bawah] >= $l_alternatif[$bawah]){
-                // array_push($concordance, $bawah);
-                $sum += $bobot[$bawah];
-            }
-        }
-        return $sum;
-    }
-
-    private function disconcordance_sum($k_alternatif, $l_alternatif, $matrix){
-        $m = count($matrix[0]);
-        $disconcordance = [];
-        $dx = [];
-        $dy = [];
-        $maxdx = 0;
-        $maxdy = 0;
-        for ($bawah=0; $bawah < $m; $bawah++) { 
-            if($k_alternatif[$bawah] < $l_alternatif[$bawah]){
-                array_push($disconcordance, $bawah);
-            }
-        }
-
-        if(count($disconcordance) == 0){
-            return 0;
-        }
-
-        // atas
-        for ($i=0; $i < count($disconcordance); $i++) { 
-            $dkl = abs($k_alternatif[$disconcordance[$i]] - $l_alternatif[$disconcordance[$i]]);
-            array_push($dx, $dkl);
-        }
-        // bawah
-        for ($bawah=0; $bawah < $m; $bawah++) { 
-            $vj = abs($k_alternatif[$bawah] - $l_alternatif[$bawah]);
-            array_push($dy, $vj);
-        }
-        $maxdx = max($dx);
-        $maxdy = max($dy);
-
-        return $maxdx / $maxdy;
-    }
-
-    private function agregasi($concordance, $discordance)
-    {
-        $baris = count($concordance);
-        $kolom = count($concordance[0]);
-
-        $agregasi = [];
-        for ($i=0; $i < $baris; $i++) {
-            $row_agregasi = []; 
-            for ($j=0; $j < $kolom; $j++) { 
-                array_push($row_agregasi, $concordance[$i][$j] * $discordance[$i][$j]);
-            }
-            array_push($agregasi, $row_agregasi);
-        }
-        return $agregasi;
     }
 
     public function store(Request $request){
