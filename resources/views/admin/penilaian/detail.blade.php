@@ -19,39 +19,6 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Nilai Matrix Keputusan</h4>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <div id="example_wrapper" class="dataTables_wrapper">
-                            <table id="example1" class="display dataTable" style="min-width: 845px" role="grid" aria-describedby="example_info">
-                                <thead>
-                                    <tr role="row">
-                                        <th>Kode</th>
-                                        @for ($i = 1; $i < count($ranking[0]); $i++)
-                                            <th>C{{ $i }}</th>
-                                        @endfor
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @for ($i = 0; $i < count($ranking); $i++)                          
-                                    <tr>
-                                        @for ($j = 0; $j < count($ranking[0]); $j++)
-                                            <td>{{ $ranking[$i][$j] }}</td>
-                                        @endfor
-                                    </tr>
-                                    @endfor
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
                     <h4 class="card-title">Matrix</h4>
                 </div>
                 <div class="card-body">
@@ -151,105 +118,6 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Nilai Matrix Concordance</h4>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <div id="example_wrapper" class="dataTables_wrapper">
-                            <table id="example1" class="display dataTable" style="min-width: 845px" role="grid" aria-describedby="example_info">
-                                <thead>
-                                    <tr role="row">
-                                        <th>Kode</th>
-                                        @for ($i = 1; $i < count($concordance_matrix[0]); $i++)
-                                            <th>C{{ $i }}</th>
-                                        @endfor
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @for ($i = 0; $i < count($concordance_matrix); $i++)                          
-                                    <tr>
-                                        @for ($j = 0; $j < count($concordance_matrix[0]); $j++)
-                                            <td>{{ $concordance_matrix[$i][$j] }}</td>
-                                        @endfor
-                                    </tr>
-                                    @endfor
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">Nilai Matrix Discordance</h4>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <div id="example_wrapper" class="dataTables_wrapper">
-                            <table id="example1" class="display dataTable" style="min-width: 845px" role="grid" aria-describedby="example_info">
-                                <thead>
-                                    <tr role="row">
-                                        <th>Kode</th>
-                                        @for ($i = 1; $i < count($discordance_matrix[0]); $i++)
-                                            <th>C{{ $i }}</th>
-                                        @endfor
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @for ($i = 0; $i < count($discordance_matrix); $i++)                          
-                                    <tr>
-                                        @for ($j = 0; $j < count($discordance_matrix[0]); $j++)
-                                            <td>{{ $discordance_matrix[$i][$j] }}</td>
-                                        @endfor
-                                    </tr>
-                                    @endfor
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">Nilai Matrix Agregasi</h4>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <div id="example_wrapper" class="dataTables_wrapper">
-                            <table id="example1" class="display dataTable" style="min-width: 845px" role="grid" aria-describedby="example_info">
-                                <thead>
-                                    <tr role="row">
-                                        <th>Kode</th>
-                                        @for ($i = 1; $i < count($agregasi[0]); $i++)
-                                            <th>C{{ $i }}</th>
-                                        @endfor
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @for ($i = 0; $i < count($agregasi); $i++)                          
-                                    <tr>
-                                        @for ($j = 0; $j < count($agregasi[0]); $j++)
-                                            <td>{{ $agregasi[$i][$j] }}</td>
-                                        @endfor
-                                    </tr>
-                                    @endfor
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
                     <h4 class="card-title">Ranking</h4>
                 </div>
                 <div class="card-body">
@@ -260,6 +128,7 @@
                                     <tr role="row">
                                         <th>No</th>
                                         <th>Alternatif</th>
+                                        <th>Nilai</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -267,6 +136,7 @@
                                     <tr>
                                         <td>{{ $i+1 }}</td>
                                         <td>{{ $ranking[$i][0] }}</td>
+                                        <td>{{ $ranking[$i][1] }}</td>
                                     </tr>
                                     @endfor
                                 </tbody>
@@ -275,6 +145,10 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="col-12">
+            <p class="text-dark">Dari hasil perhitungan, maka diperoleh hasil rekomendasi yaitu <strong>{{ $ranking[0][0] }}</strong></p>
         </div>
     </div>
 </div>

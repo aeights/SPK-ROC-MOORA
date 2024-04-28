@@ -3,7 +3,6 @@
 ***********************************-->
 <div class="footer">
     <div class="copyright">
-        <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank"></a> 2019</p>
-        <!-- <p>Distributed by <a href="https://themewagon.com/" target="_blank">Themewagon</a></p>  -->
+        <p>Copyright © Designed &amp; Developed by me @ 2024</p>
     </div>
 </div>
