@@ -48,7 +48,8 @@ class PenilaianController extends Controller
             }
             array_push($matrix, $temp);
         }
-        
+        $bobotBaru = $this->pembobotan($bobot);
+        dd($bobot,$bobotBaru,$matrix);
         $matrix_normalisasi = $this->normalisasi($matrix);
         $matrix_normalisasi_w = $this->normalisasi_w($matrix_normalisasi, $bobot);
         // matrix normalisasi dengan bobot
@@ -113,7 +114,24 @@ class PenilaianController extends Controller
         ]);
     }
 
-    private function threshold($matrixs, $m){
+    // ROC
+    private function pembobotan($bobot) {
+        $sumKriteria = count($bobot);
+        $hasil = [];
+        for ($baris=0; $baris < $sumKriteria; $baris++) { 
+            $temp = [];
+            for ($kolom=$baris; $kolom < $sumKriteria; $kolom++) { 
+                $bobotBaru = 1 / ($kolom+1);
+                array_push($temp,$bobotBaru);
+            }
+            array_push($hasil,array_sum($temp)/$sumKriteria);
+        }
+        return $hasil;
+    }
+
+
+    // Electre
+    private function threshold($matrixs, $m) {
         $threshold = 0;
         foreach ($matrixs as  $matrix) {
             foreach ($matrix as $value) {
