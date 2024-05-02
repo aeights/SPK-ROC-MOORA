@@ -18,6 +18,22 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
+                <div class="card-body">
+                    <div class="row justify-content-end">
+                        {{-- <div class="col-6"></div> --}}
+                        <div class="col-1">
+                            <a href="{{ route('admin.penilaian.pdf', $id) }}" class="btn btn-primary">
+                                Cetak
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
                 <div class="card-header">
                     <h4 class="card-title">Matrix</h4>
                 </div>
