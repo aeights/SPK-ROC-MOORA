@@ -86,6 +86,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/history', [PenilaianController::class, 'history'])->name('admin.penilaian.history');
             Route::get('/history/{id}', [PenilaianController::class, 'detail_history'])->name('admin.penilaian.detail_history');
             Route::post('/', [PenilaianController::class, 'store'])->name('admin.penilaian.store');
+            Route::get('/generate-pdf/{id}', [PenilaianController::class, 'generatePdf'])->name('admin.penilaian.pdf');
         });
     });
 });

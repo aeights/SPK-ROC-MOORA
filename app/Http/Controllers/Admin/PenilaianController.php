@@ -8,6 +8,8 @@ use App\Models\KriPenilaian;
 use App\Models\Kriteria;
 use App\Models\Penilaian;
 use App\Models\SubPenilaian;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -82,13 +84,13 @@ class PenilaianController extends Controller
             $penilaian->alternatif = $hasilRanking[0][0];
             $penilaian->save();
         }
-        // dd($bobot, $types, $bobotBaru,$matrix_normalisasi, $matrix_normalisasi_w, $minmax, $hasilRanking);
         
         return view('admin.penilaian.detail', [
             'matrix_normalisasi' => $matrix_normalisasi, 
             'matrix_normalisasi_w' => $matrix_normalisasi_w,
             'matrix' => $matrix,
             'ranking' => $hasilRanking,
+            'id' => $penilaian->id,
         ]);
     }
 
@@ -164,20 +166,12 @@ class PenilaianController extends Controller
         return $matrix_normalisasi_w;
     }
 
-
-
     private function rangking($matrix)
     {
         $sort = $matrix;
-        for ($i=0; $i < count($sort) - 1; $i++) { 
-            for ($j=0; $j < count($sort) - $i - 1; $j++) { 
-                if ($matrix[$j][1] < $matrix[$j+1][1]) {
-                    $temp = $sort[$j];
-                    $sort[$j] = $sort[$j + 1];
-                    $sort[$j + 1] = $temp;
-                }
-            }
-        }
+        usort($sort, function($a, $b) {
+            return $b[1] <=> $a[1];
+        });
         return $sort;
     }
 
@@ -209,5 +203,65 @@ class PenilaianController extends Controller
             DB::rollBack();
             return $th->getMessage();
         }
+    }
+
+    public function generatePdf($id)
+    {
+        $penilaian = SubPenilaian::with('KriPenilaian')->where('penilaian_id', $id)->get();
+        $kriterias = Kriteria::select('value', 'type')->get();
+        $bobot = [];
+        $types = [
+            "benefits" => [],
+            "costs" => []
+        ];
+        // bobot
+        $i = 0;
+       foreach($kriterias as $kriteria){
+            array_push($bobot, $kriteria->value);
+            if($kriteria->type == "Benefit"){
+                array_push($types["benefits"], $i);
+            }else{
+                array_push($types["costs"], $i);
+            }
+            $i++;
+        }
+       
+        $matrix = [];
+        foreach($penilaian as $p){
+            $temp = [];
+            foreach($p->KriPenilaian as $kri){
+                array_push($temp, $kri->bobot);
+            }
+            array_push($matrix, $temp);
+        }
+        $bobotBaru = $this->pembobotan($bobot);
+        $matrix_normalisasi = $this->normalisasi($matrix);
+        $matrix_normalisasi_w = $this->normalisasi_w($matrix_normalisasi, $bobotBaru);
+        $minmax = $this->minmax($matrix_normalisasi_w, $types);
+        
+        $x = 0;
+        foreach($penilaian as $p) { 
+            $minmax[$x] = [$p->alternatif,$minmax[$x]];
+            $x++;
+        }
+
+        $hasilRanking = $this->rangking($minmax);
+
+        $data = [
+            'title' => 'Hasil Perangkingan Menggunakan ROC dan Moora',
+            'rangking' => $hasilRanking,
+        ];
+
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml(view('admin.pdf.document', $data));
+
+        $dompdf->setPaper('A4', 'portrait');
+
+        $dompdf->render();
+
+        return $dompdf->stream('document.pdf');
     }
 }
